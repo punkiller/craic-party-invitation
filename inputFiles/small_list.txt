@@ -1,0 +1,5 @@
+{"latitude": "52.46", "user_id": 7, "name": "Julio Jones", "longitude": "-6.6"}
+{"latitude": "-50.0", "user_id": 6, "name": "Fernando Torres", "longitude": "2.0"}
+{"latitude": "53.339428", "user_id": 10, "name": "Pankaj Yadav", "longitude": "-6.255"}
+{"latitude": "53.339428", "user_id": 5, "name": "Barack Obama", "longitude": "-6.27"}
+{"latitude": "53.339428", "user_id": 3, "name": "Niraj Yadav", "longitude": "-6.257664"}
