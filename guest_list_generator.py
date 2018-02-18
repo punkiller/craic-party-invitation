@@ -28,10 +28,14 @@ def main():
     all_users = ingest_file.IngestJSONLines("inputFiles/gistfile.txt")
     if (len(all_users) == 0):
         print("No users found in file, Exiting !!")
+    
+    # create a guest list for a party at a location
     guests = GuestList(all_users, args.reference_latitude, args.reference_longitude)
     
+    # get the guest within range in kilometers 
     guests_in_range = guests.get_guests_closer_than(100)
     
+    # print the guest in ascending order of their ID
     guests.print_selected_guest_list(guests_in_range)
 
 if __name__ == "__main__":

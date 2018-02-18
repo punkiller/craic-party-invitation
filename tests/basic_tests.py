@@ -55,7 +55,7 @@ class TestDublin(unittest.TestCase) :
         for guest in guests_in_range:
             self.assertEqual( guest[1] <= 0, True)
         
-    def test_dist_json_file_load(self):
+    def test_distance_calculations(self):
         '''
         To test the distance calculation
         Checking all distance values in small_list.txt file
