@@ -10,18 +10,20 @@ This program that will read the full list of friends and output the names and id
 ## Getting Started
 
 You need to download the source
-
+```
 git clone https://github.com/punkiller/craic-party-invitation.git
-
+```
 run 
-
+```
 $ ./guest_list_generator.py
-
+```
 The above command default distance 100km from latitude 53.339428, longitude 6.257664, input file 'inputFiles/gistfile.txt'
 
 for help use : 
+```
 ./guest_list_generator --help
-
+```
+```
 $ ./guest_list_generator.py --help
 usage: guest_list_generator.py [-h] [-m MAX_DISTANCE]
                                [-lat REFERENCE_LATITUDE]
@@ -40,7 +42,7 @@ optional arguments:
   -f INPUT_FILE         Path to the input file containing json encoded user
                         data
 
-
+```
 ## Examples
 
 Example input file line format :
@@ -49,7 +51,7 @@ Taken from file :
 craic-party-invitation/inputFiles/gistfile.txt
 
 ### How to generate list of guests 200km or less distance away from craic party
-
+````
 Pankajs-MacBook-Pro:Party_Invitations pankajyadav$ ./guest_list_generator.py -m 2000  
 
 Ingested User Data for [32] users from file [inputFiles/gistfile.txt]
@@ -85,9 +87,10 @@ Name [Oliver Ahearn], ID [29]
 Name [Nick Enright], ID [30]
 Name [Alan Behan], ID [31]
 Name [Lisa Ahearn], ID [39]
+```
 
 ### How to generate list of guests 25km or less distance away from craic party
-
+```
 Pankajs-MacBook-Pro:Party_Invitations pankajyadav$ ./guest_list_generator.py -m 25  
 
 Ingested User Data for [32] users from file [inputFiles/gistfile.txt]
@@ -95,9 +98,9 @@ Ingested User Data for [32] users from file [inputFiles/gistfile.txt]
 Name [Ian Kehoe], ID [4]
 Name [Nora Dempsey], ID [5]
 Name [Theresa Enright], ID [6]
-
+```
 ### How to generate list of guests 50km or less away from craic party
-
+```
 Pankajs-MacBook-Pro:Party_Invitations pankajyadav$ ./guest_list_generator.py -m 50
 
 Ingested User Data for [32] users from file [inputFiles/gistfile.txt]
@@ -110,9 +113,9 @@ Name [Christina McArdle], ID [12]
 Name [Michael Ahearn], ID [15]
 Name [Alan Behan], ID [31]
 Name [Lisa Ahearn], ID [39]
-
+```
 ### How to generate list of guests 100km or less distance away from craic party
-
+```
 Pankajs-MacBook-Pro:Party_Invitations pankajyadav$ ./guest_list_generator.py -m 100
 
 Ingested User Data for [32] users from file [inputFiles/gistfile.txt]
@@ -133,8 +136,7 @@ Name [Oliver Ahearn], ID [29]
 Name [Nick Enright], ID [30]
 Name [Alan Behan], ID [31]
 Name [Lisa Ahearn], ID [39]
-
-
+```
 ### Prerequisites
 
 You should have python3 installed 
