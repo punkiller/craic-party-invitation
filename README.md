@@ -1,4 +1,4 @@
-# Craic Party Inviter
+# Craic Party Invitation
 
 A Party management system that can be used to generate a guest list, based on how far they are from the party.
 The distance of a person is determined by their GPS coordinates (latitude and longitude).
@@ -50,8 +50,8 @@ Example input file line format :
 Taken from file :
 craic-party-invitation/inputFiles/gistfile.txt
 
-### How to generate list of guests 200km or less distance away from craic party
-````
+ How to generate list of guests 200km or less distance away from craic party
+```
 Pankajs-MacBook-Pro:Party_Invitations pankajyadav$ ./guest_list_generator.py -m 2000  
 
 Ingested User Data for [32] users from file [inputFiles/gistfile.txt]
@@ -88,8 +88,7 @@ Name [Nick Enright], ID [30]
 Name [Alan Behan], ID [31]
 Name [Lisa Ahearn], ID [39]
 ```
-
-### How to generate list of guests 25km or less distance away from craic party
+ How to generate list of guests 25km or less distance away from craic party
 ```
 Pankajs-MacBook-Pro:Party_Invitations pankajyadav$ ./guest_list_generator.py -m 25  
 
@@ -99,7 +98,7 @@ Name [Ian Kehoe], ID [4]
 Name [Nora Dempsey], ID [5]
 Name [Theresa Enright], ID [6]
 ```
-### How to generate list of guests 50km or less away from craic party
+ How to generate list of guests 50km or less away from craic party
 ```
 Pankajs-MacBook-Pro:Party_Invitations pankajyadav$ ./guest_list_generator.py -m 50
 
@@ -114,7 +113,7 @@ Name [Michael Ahearn], ID [15]
 Name [Alan Behan], ID [31]
 Name [Lisa Ahearn], ID [39]
 ```
-### How to generate list of guests 100km or less distance away from craic party
+ How to generate list of guests 100km or less distance away from craic party
 ```
 Pankajs-MacBook-Pro:Party_Invitations pankajyadav$ ./guest_list_generator.py -m 100
 
@@ -143,28 +142,48 @@ You should have python3 installed
 No other special modules are required
 
 ## Running the tests
+```
+Pankajs-MacBook-Pro:Party_Invitations pankajyadav$ python3 -m unittest discover <path-to-test-directory> -p '*.py'
 Pankajs-MacBook-Pro:Party_Invitations pankajyadav$ python3 -m unittest discover tests -p '*.py'
-
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
 ```
-Give an example
+### Break down of tests
+
+There are two test files 
 ```
-
-### And coding style tests
-
-Explain what these tests test and why
-
+tests/file_import_tests.py : Tests import of files, this is expected to be the preferred method of loading user data
+tests/basic_tests.py : Test the functionality of the project.
 ```
-Give an example
+file_import_tests 
+```
+test_good_json_file_load
+This test loads file inputFiles/gistfile.txt,
+containing 32 valid lines, 
+it checks if 32 users have been entered into the system
+
+test_bad_json_file_load
+This test tries to load a non existent file and fails, 
+making sure that system prints an error statement and exits gracefully, 
+while having entered 0 registered users
+
+test_three_users
+This test loads file inputFiles/three_valid_users.txt, 
+the file contains some bad lines, 
+so it will print error messages for the bad lines, 
+but continue processing and input the 3 valid users into the system
+```
+basic_tests
+```
+test_if_excluded_users_are_far
+Gets a list of users that are not invited,
+and checks if their distance from the craic party is,
+greater than the maximum distance allowed for the party
+
+test_if_guests_within_range
+Gets a list of the invited guests and checks if they are located within the maximum distance  allowed for the party
+
+test_distance_calculations
+Has a fixed set of users whose coordinates are known and distances have been confirmed, their distances and calculated by the craic party invitation system and compared to their known distance within 0.01 km of acceptable tolerance.
 ```
 ## Author
 
 * **Pankaj Yadav**
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
