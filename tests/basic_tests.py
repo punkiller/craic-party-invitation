@@ -1,4 +1,4 @@
-# This file contains the Unit Tests for the party invitations project
+# The Unit Tests for the party invitations project
 
 import unittest
 import math
@@ -7,53 +7,52 @@ import ingest_file
 from user_details import UserDetails
 from guest_list import GuestList
 
-class TestDublin(unittest.TestCase) :
+class InvitationTests(unittest.TestCase) :
 
     def setUp(self):
 
         self.all_user_list = 'inputFiles/gistfile.txt'
         self.small_user_list = 'inputFiles/small_list.txt'
-        self.three_valid_list = 'inputFiles/three_valid_users.txt'
+        self.three_valid_users_list = 'inputFiles/three_valid_users.txt'
 
         self.reference_latitude = 53.339428
         self.reference_longitude = -6.257664
     
-    def test_good_json_file_load(self):
+    def test_if_excluded_users_are_far(self):
         '''
-        Loading the full list of 32 users 
-        checking if all 32 users loaded
-        '''
-        print("\n=====Running Test=====")
-        print("File containing 32 users")
-        print("======================")
-        json_data = ingest_file.IngestJSONLines(self.all_user_list)
-        self.assertEqual(len(json_data), 32)
-    
-    def test_out_of_range_guests(self):
-        '''
-        Test if list if sorted
+        Test if users that were not invited are really farther than max disatnce
         '''
         print("\n=====Running Test=====")
-        print("File containing 32 users, Sorted ??")
+        print("Checking if users not invited are all outside the distance range")
         print("======================")
         json_data = ingest_file.IngestJSONLines(self.all_user_list)
         guests = GuestList(json_data, self.reference_latitude, self.reference_longitude)
         
-        guests_in_range = guests.get_guests_closer_than(150)
-        for guest in guests_in_range:
-            self.assertEqual( guest[1] <= 150, True)
+        test_distances = [150, 20, 1000, 0]
+        for sample_dist in test_distances:
+            guests.set_maximum_distance_from_venue(sample_dist)
+            excludeds = guests.get_users_excluded_from_party()
+            for id in excludeds:
+                distance = guests.user_lookup[id].get_distance_from_pt(self.reference_latitude, self.reference_longitude)
+                self.assertGreater(distance, sample_dist)
 
-        guests_in_range = guests.get_guests_closer_than(20)
-        for guest in guests_in_range:
-            self.assertEqual( guest[1] <= 20, True)
-
-        guests_in_range = guests.get_guests_closer_than(1000)
-        for guest in guests_in_range:
-            self.assertEqual( guest[1] <= 1000, True)
-
-        guests_in_range = guests.get_guests_closer_than(0)
-        for guest in guests_in_range:
-            self.assertEqual( guest[1] <= 0, True)
+    def test_if_guests_within_range(self):
+        '''
+        Test if users invited are really within range
+        '''
+        print("\n=====Running Test=====")
+        print("Checking if invited users are really within range")
+        print("======================")
+        json_data = ingest_file.IngestJSONLines(self.all_user_list)
+        guests = GuestList(json_data, self.reference_latitude, self.reference_longitude)
+        
+        test_distances = [150, 20, 1000, 0]
+        for sample_dist in test_distances:
+            guests.set_maximum_distance_from_venue(sample_dist)
+            inviteds = guests.get_users_invited_to_party()
+            for id in inviteds:
+                distance = guests.user_lookup[id].get_distance_from_pt(self.reference_latitude, self.reference_longitude)
+                self.assertLessEqual(distance, sample_dist)
         
     def test_distance_calculations(self):
         '''
@@ -63,35 +62,41 @@ class TestDublin(unittest.TestCase) :
         print("\n=====Running Test=====")
         print("Distance calculation tests")
         print("======================")
-        json_data = ingest_file.IngestJSONLines(self.small_user_list)
-        guests = GuestList(json_data, self.reference_latitude, self.reference_longitude)
-        # pre computed list verified from the web
-        correct_distance_list = [0.0, 0.17, 0.81, 100.44, 11516.88]
         
-        for itr in range(5):
-            dist_compare = math.isclose(guests.user_list[itr].distance, correct_distance_list[itr], abs_tol= 0.01)
-            print('{},{}, {}'.format(guests.user_list[itr].distance,correct_distance_list[itr], dist_compare ))
-            self.assertEqual(dist_compare, True)
-    
-    def test_bad_json_file_load(self):
-        '''
-        File does not exist
-        '''
-        print("\n=====Running Test=====")
-        print("File does not exist")
-        print("======================")
-        json_data = ingest_file.IngestJSONLines("file_does_not_exist")
-        self.assertEqual(len(json_data), 0)
-    
-    def test_three_users(self):
-        '''
-        Only 3 valid users present in file
-        '''
-        print("\n=====Running Test=====")
-        print("Only 3 valid users")
-        print("======================")
-        json_data = ingest_file.IngestJSONLines(self.three_valid_list)
-        self.assertEqual(len(json_data), 3)
+        #{"latitude": "52.46", "user_id": 7, "name": "Julio Jones", "longitude": "-6.6"}
+        Julio = UserDetails("Julio", 7, 52.46, -6.6)
+        distance = Julio.get_distance_from_pt(self.reference_latitude, self.reference_longitude)
+        dist_compare = math.isclose(distance, 100.45, abs_tol= 0.01)
+        print('{} == {}, {}'.format(distance, 0.0, dist_compare))
+        self.assertTrue(dist_compare)
+
+        #{"latitude": "-50.0", "user_id": 6, "name": "Fernando Torres", "longitude": "2.0"}
+        Torres= UserDetails("Torres", 6, -50.00, 2.00)
+        distance = Torres.get_distance_from_pt(self.reference_latitude, self.reference_longitude)
+        dist_compare = math.isclose(distance, 11516.88, abs_tol= 0.01)
+        print('{} == {}, {}'.format(distance, 11516.88, dist_compare))
+        self.assertTrue(dist_compare)
+        
+        #{"latitude": "53.339428", "user_id": 5, "name": "Barack Obama", "longitude": "-6.27"}
+        Obama = UserDetails("Obama", 5, 53.339428, -6.27)
+        distance = Obama.get_distance_from_pt(self.reference_latitude, self.reference_longitude)
+        dist_compare = math.isclose(distance, 0.819, abs_tol= 0.01)
+        print('{} == {}, {}'.format(distance, 0.819, dist_compare))
+        self.assertTrue(dist_compare)
+
+        #{"latitude": "53.339428", "user_id": 3, "name": "Niraj Yadav", "longitude": "-6.257664"}
+        Niraj = UserDetails("Niraj", 3, 53.339428, -6.257664)
+        distance = Niraj.get_distance_from_pt(self.reference_latitude, self.reference_longitude)
+        dist_compare = math.isclose(distance, 0.0, abs_tol= 0.01)
+        print('{} == {}, {}'.format(distance, 0.0, dist_compare))
+        self.assertTrue(dist_compare)
+
+        #{"latitude": "53.339428", "user_id": 10, "name": "Pankaj Yadav", "longitude": "-6.255"}
+        Pankaj = UserDetails("Pankaj", 10, 53.339428, -6.255)
+        distance = Pankaj.get_distance_from_pt(self.reference_latitude, self.reference_longitude)
+        dist_compare = math.isclose(distance, 0.18, abs_tol= 0.01)
+        print('{} == {}, {}'.format(distance, 0.18, dist_compare))
+        self.assertTrue(dist_compare)
 
 if __name__ == "__main__":
        unittest.main()
