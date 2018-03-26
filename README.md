@@ -43,8 +43,12 @@ optional arguments:
 
 ## Examples
 
+Example input file line format :
+{"latitude": "53.1229599", "user_id": 6, "name": "Theresa Enright", "longitude": "-6.2705202"}
+Taken from file :
+craic-party-invitation/inputFiles/gistfile.txt
 
-EXAMPLES
+### How to generate list of guests 200km or less distance away from craic party
 
 Pankajs-MacBook-Pro:Party_Invitations pankajyadav$ ./guest_list_generator.py -m 2000  
 
@@ -81,15 +85,23 @@ Name [Oliver Ahearn], ID [29]
 Name [Nick Enright], ID [30]
 Name [Alan Behan], ID [31]
 Name [Lisa Ahearn], ID [39]
+
+### How to generate list of guests 25km or less distance away from craic party
+
 Pankajs-MacBook-Pro:Party_Invitations pankajyadav$ ./guest_list_generator.py -m 25  
 
 Ingested User Data for [32] users from file [inputFiles/gistfile.txt]
+
 Name [Ian Kehoe], ID [4]
 Name [Nora Dempsey], ID [5]
 Name [Theresa Enright], ID [6]
+
+### How to generate list of guests 50km or less away from craic party
+
 Pankajs-MacBook-Pro:Party_Invitations pankajyadav$ ./guest_list_generator.py -m 50
 
 Ingested User Data for [32] users from file [inputFiles/gistfile.txt]
+
 Name [Ian Kehoe], ID [4]
 Name [Nora Dempsey], ID [5]
 Name [Theresa Enright], ID [6]
@@ -98,9 +110,13 @@ Name [Christina McArdle], ID [12]
 Name [Michael Ahearn], ID [15]
 Name [Alan Behan], ID [31]
 Name [Lisa Ahearn], ID [39]
+
+### How to generate list of guests 100km or less distance away from craic party
+
 Pankajs-MacBook-Pro:Party_Invitations pankajyadav$ ./guest_list_generator.py -m 100
 
 Ingested User Data for [32] users from file [inputFiles/gistfile.txt]
+
 Name [Ian Kehoe], ID [4]
 Name [Nora Dempsey], ID [5]
 Name [Theresa Enright], ID [6]
@@ -126,6 +142,7 @@ No other special modules are required
 
 ## Running the tests
 Pankajs-MacBook-Pro:Party_Invitations pankajyadav$ python3 -m unittest discover tests -p '*.py'
+
 
 ### Break down into end to end tests
 
